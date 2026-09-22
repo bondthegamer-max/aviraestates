@@ -975,3 +975,49 @@ body.line-stays .crosslink.own { border-left-color: var(--stays); }
    CSS height and override every aspect-ratio crop (the hero and galleries were rendering ~1100px tall) */
 img { height: auto; }
 .titlecard .tc-foot { margin-top: var(--sp-4); }
+
+/* ========================= STAYS: THE STUDIO ========================= */
+.studio-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-5); margin-top: var(--sp-6); }
+@media (max-width: 900px) { .studio-facts { grid-template-columns: 1fr 1fr; } }
+.studio-facts > div { border-top: 2px solid var(--spine); padding-top: var(--sp-3); }
+.studio-facts b { display: block; font-family: var(--f-display); font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+.studio-facts span { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+.studio-gal { margin-top: var(--sp-7); display: grid; gap: var(--sp-3); }
+.studio-gal figure { margin: 0; min-width: 0; }
+.studio-gal img { width: 100%; height: auto; display: block; object-fit: cover; }
+.studio-gal figcaption { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); margin-top: var(--sp-2); }
+.studio-wides { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+.studio-wides img { aspect-ratio: 1600 / 685; }
+.studio-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+.studio-row img { aspect-ratio: 4 / 5; }
+.studio-row .f-mirror img  { object-position: center 66%; }
+.studio-row .f-daybed img  { object-position: center 58%; }
+.studio-row .f-bath img    { object-position: center 62%; }
+@media (max-width: 760px) {
+  .studio-wides { grid-template-columns: 1fr; }
+  /* portraits become a sideways swipe on phones rather than three thumbnails or a very long stack */
+  .studio-row {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 66%;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent);
+            mask-image: linear-gradient(90deg, #000 86%, transparent);
+  }
+  .studio-row::-webkit-scrollbar { display: none; }
+  .studio-row figure { scroll-snap-align: start; }
+}
+.studio-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: var(--sp-6); }
+.studio-cta .text-link { font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--spine); }
+.studio-cta .text-link:hover { color: var(--spine); }
+.room .room-more { font-size: 13px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--spine); align-self: flex-start; }
+.room .room-more:hover { color: var(--spine); }
+/* About: photo bleeds to the edges of each division card */
+.division-media { margin: calc(-1 * var(--sp-5)) calc(-1 * var(--sp-5)) var(--sp-5); overflow: hidden; }
+.division-media img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.division.re .division-media img { object-position: center 45%; }
+.division.re .division-media { border-bottom: 3px solid var(--accent); }
+.division.ho .division-media { border-bottom: 3px solid var(--stays); }
+/* Stays: direct-booking line under the platform buttons */
+.studio-direct { margin-top: var(--sp-3); font-size: 14px; color: var(--ink-soft); }
+.studio-direct a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--spine); }
+.studio-direct a:hover { color: var(--spine); }
