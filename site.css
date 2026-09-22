@@ -184,7 +184,7 @@ a { color: inherit; }
 
 /* ============================ NAV ============================ */
 .nav {
-  position: sticky; top: 0; z-index: 50;
+  position: relative; z-index: 50;
   background: rgba(247, 241, 228, 0.94);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -220,7 +220,21 @@ body.line-estates .nav, body.line-stays .nav { border-bottom: 2px solid var(--sp
 .nav-links .avira-btn { padding: 10px 18px; }
 .nav-links .avira-btn:hover { border-bottom-color: transparent; }
 @media (max-width: 860px) {
-  .nav-links a:not(.avira-btn) { display: none; }
+  /* the four divisions move to their own scrollable row under the brand bar;
+     the nav row keeps only the logo and the CTA */
+  .nav-in { flex-wrap: wrap; row-gap: 0; }
+  .nav-links { width: 100%; order: 3; gap: var(--sp-5);
+    overflow-x: auto; scrollbar-width: none;
+    border-top: 1px solid var(--line); padding-top: 2px; margin-top: var(--sp-3); }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a:not(.avira-btn) { white-space: nowrap; font-size: 13px; padding-block: 9px; }
+  .nav-links .avira-btn {
+    position: absolute; top: var(--sp-3); right: var(--sp-5);
+    padding: 9px 15px; font-size: 13px;
+  }
+  .nav-in { position: relative; }
+  /* give the logo row the CTA's height so the hairline clears the button */
+  .nav-in > a:first-child { min-height: 36px; display: flex; align-items: center; }
 }
 
 /* ============================ HERO ============================ */
@@ -534,6 +548,9 @@ form { display: grid; gap: var(--sp-4); }
 .callbox { border: 1px solid var(--line-firm); background: var(--paper); padding: var(--sp-5); margin-top: var(--sp-5); }
 .callbox a { font-family: var(--f-display); font-size: 24px; font-weight: 700; color: var(--ink); text-decoration: none; font-variant-numeric: tabular-nums; }
 .callbox a:hover { color: var(--accent); }
+/* secondary lines in a callbox (email, note) are not phone numbers */
+.callbox .micro a { font-family: var(--f-body); font-size: inherit; font-weight: 400;
+  letter-spacing: inherit; text-transform: none; }
 
 /* ======================== FOOTER ======================== */
 .foot { background: var(--ink); color: rgba(247,241,228,.78); padding-block: var(--sp-8) var(--sp-6); }
@@ -565,7 +582,9 @@ form { display: grid; gap: var(--sp-4); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+/* two pinned tiers on desktop, one on mobile — anchors must clear both */
+html { scroll-behavior: smooth; scroll-padding-top: 132px; }
+@media (max-width: 820px) { html { scroll-padding-top: 124px; } }
 
 /* ============================================================
    MULTI-PAGE ADDITIONS — Avira parent brand, Estates, Stays
@@ -829,3 +848,110 @@ body.line-stays .crosslink.own { border-left-color: var(--stays); }
   .venue { grid-template-columns: 1fr; gap: 5px; padding: var(--sp-4) 0; }
   .venue .far { text-align: left; }
 }
+
+/* ==================== TWO-TIER NAVIGATION ==================== */
+/* Tier 1 (.nav) is the same on every page: the four divisions of the company.
+   Tier 2 (.subnav) carries the anchors local to whichever page you are on. */
+.nav-links a.div { font-weight: 500; }
+.nav-links a.div[aria-current="page"] {
+  border-bottom-color: var(--spine);
+  color: var(--ink);
+}
+.subnav {
+  position: relative; z-index: 49;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+/* both tiers pin as one block, so the second never slides under the first */
+.navstack { position: sticky; top: 0; z-index: 50; }
+/* on a phone the second tier scrolls away and only the brand bar stays pinned.
+   display:contents dissolves the wrapper so .nav sticks against the page, not
+   against a 120px-tall parent it would scroll straight out of. */
+@media (max-width: 820px) {
+  .navstack { display: contents; }
+  .nav { position: sticky; top: 0; z-index: 50; }
+  .subnav { position: static; }
+}
+.subnav-in {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: 0 var(--sp-5);
+  display: flex; align-items: center; gap: var(--sp-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.subnav-in::-webkit-scrollbar { display: none; }
+.subnav-in .here {
+  font-family: var(--f-display); font-size: 12px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--spine); white-space: nowrap;
+  padding-block: 13px; margin-right: var(--sp-2);
+}
+.subnav-in a {
+  font-size: 13px; color: var(--ink-soft); text-decoration: none;
+  white-space: nowrap; padding-block: 13px;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.subnav-in a:hover { color: var(--ink); border-bottom-color: var(--spine); }
+@media (max-width: 820px) {
+  .subnav-in { gap: var(--sp-4); padding-inline: var(--sp-4); }
+  .subnav-in .here { display: none; }
+}
+
+/* ======================== ABOUT PAGE ======================== */
+.mv { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); margin-top: var(--sp-6); }
+@media (max-width: 820px) { .mv { grid-template-columns: 1fr; } }
+.mv > div { border-top: 2px solid var(--spine); padding-top: var(--sp-4); }
+/* each half carries its own division colour */
+.mv.lines > div:first-child { --spine: var(--accent); }
+.mv.lines > div:last-child  { --spine: var(--stays); }
+.mv h3 {
+  font-family: var(--f-display); font-size: 12px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--spine);
+  margin: 0 0 var(--sp-3);
+}
+.mv p { font-size: 17px; line-height: 1.62; }
+.mv p:last-child { margin-bottom: 0; }
+.divisions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); margin-top: var(--sp-6); }
+@media (max-width: 820px) { .divisions { grid-template-columns: 1fr; } }
+.division {
+  border: 1px solid var(--line-firm); background: var(--paper);
+  padding: var(--sp-5); display: flex; flex-direction: column;
+}
+.division .kicker {
+  font-family: var(--f-display); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; margin: 0 0 var(--sp-2);
+}
+.division.re .kicker { color: var(--accent); }
+.division.ho .kicker { color: var(--stays); }
+.division h3 { font-family: var(--f-display); font-size: 22px; font-weight: 600; margin: 0 0 var(--sp-3); }
+.division p { font-size: 15px; margin-bottom: var(--sp-4); }
+.division dl { margin: 0 0 var(--sp-5); display: grid; gap: 7px; }
+.division dl div { display: flex; gap: var(--sp-3); font-size: 14px; }
+.division dt { color: var(--ink-faint); flex: 0 0 108px; }
+.division dd { margin: 0; }
+.division .go { margin-top: auto; }
+
+/* ================= ESTATES: WHAT WE OFFER ================= */
+.offer { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); margin-top: var(--sp-6); }
+@media (max-width: 900px) { .offer { grid-template-columns: 1fr; } }
+.offer-card {
+  border: 1px solid var(--line-firm); border-top: 2px solid var(--spine);
+  background: var(--paper); padding: var(--sp-5);
+  display: flex; flex-direction: column;
+}
+.offer-card .kicker {
+  font-family: var(--f-display); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--spine);
+  margin: 0 0 var(--sp-2);
+}
+.offer-card h3 { font-family: var(--f-display); font-size: 22px; font-weight: 600; margin: 0 0 var(--sp-3); }
+.offer-card p { font-size: 15px; margin-bottom: var(--sp-4); }
+.offer-card .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.offer-card .more { margin-top: var(--sp-4); font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--spine); align-self: flex-start; }
+.offer-card .more:hover { color: var(--spine); }
+.project-intro { padding-block: var(--sp-7) var(--sp-5); }
+.project-intro .lede { margin-bottom: 0; }
+.offer-card .avira-tag { font-size: 10.5px; padding: 3px 8px; letter-spacing: .05em; }
+/* the global p colour was overriding the titlecard's ivory, leaving the property name near-invisible on maroon */
+.titlecard p { color: inherit; }
