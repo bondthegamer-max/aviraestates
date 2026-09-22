@@ -1,5 +1,5 @@
 /* ============================================================
-   AZULE — Avira Estates
+   AVIRA — site styles
    Built on Avira-ui: tokens/tokens.css + components/components.css
    Palette is the building's own: ivory stucco, terracotta roof,
    cypress-green shutters, dusk-navy sky.
@@ -244,6 +244,7 @@ body.line-estates .nav, body.line-stays .nav { border-bottom: 2px solid var(--sp
 .hero-figure { margin-top: var(--sp-7); }
 .hero-figure img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center 62%;
@@ -351,8 +352,9 @@ body.line-estates .nav, body.line-stays .nav { border-bottom: 2px solid var(--sp
 .floor.ground { background: rgba(45, 63, 77, 0.045); }
 .floor.ground .floor-no { color: var(--ink-faint); font-size: 22px; }
 @media (max-width: 760px) {
-  .floor { grid-template-columns: 62px 1fr; }
+  .floor { grid-template-columns: 78px 1fr; gap: var(--sp-4); }
   .floor-no { font-size: 26px; }
+  .floor-no small { font-size: 9.5px; letter-spacing: .08em; }
   .floor-price { grid-column: 2; text-align: left; }
 }
 
@@ -496,7 +498,8 @@ body.line-estates .nav, body.line-stays .nav { border-bottom: 2px solid var(--sp
 .gal figcaption { font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-top: var(--sp-2); }
 .gal .span2 { grid-column: span 2; }
 .gal .span2 img { aspect-ratio: 8 / 5; }
-@media (max-width: 900px) { .gal { grid-template-columns: repeat(2, 1fr); } .gal .span2 { grid-column: span 2; } }
+@media (max-width: 900px) { .gal { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gal .span2 { grid-column: span 2; } }
+.gal > * { min-width: 0; }
 
 /* ==================== AMENITIES & SPECS ==================== */
 .two-col { display: grid; grid-template-columns: 1fr 1.15fr; gap: var(--sp-8); margin-top: var(--sp-7); align-items: start; }
@@ -955,3 +958,20 @@ body.line-stays .crosslink.own { border-left-color: var(--stays); }
 .offer-card .avira-tag { font-size: 10.5px; padding: 3px 8px; letter-spacing: .05em; }
 /* the global p colour was overriding the titlecard's ivory, leaving the property name near-invisible on maroon */
 .titlecard p { color: inherit; }
+/* phones: the titlecard has no image, so let its 16:10 ratio act as a minimum and grow with
+   the text instead of clipping the bottom line (overflow:hidden disabled the auto minimum) */
+.svc-media.titlecard { overflow: visible; }
+
+@media (max-width: 860px) {
+  /* only the section row: masking .nav-links would also erase the CTA positioned outside its box */
+  .subnav-in {
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+}
+/* tags are single labels — never break "4 units" across two lines */
+.avira-tag.num { white-space: nowrap; flex-shrink: 0; }   /* count badges only ("4 units"); long tags must still wrap */
+/* width/height attributes on <img> are there to reserve space; without this they become a fixed
+   CSS height and override every aspect-ratio crop (the hero and galleries were rendering ~1100px tall) */
+img { height: auto; }
+.titlecard .tc-foot { margin-top: var(--sp-4); }

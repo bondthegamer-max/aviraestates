@@ -6,7 +6,7 @@ Static marketing site for Avira — two service lines:
 |---|---|
 | `index.html` | Parent brand home — both service lines |
 | `estates.html` | Avira Estates — Siolim (24 private-pool residences) |
-| `stays.html` | Avira Stays — property management + Trayantaa Stays, Vagator |
+| `stays.html` | Avira Stays — property management + rooms in Vagator |
 | `site.css` | Shared stylesheet, built on the Avira-ui design tokens |
 | `site.js` | Floor-plan tabs + WhatsApp enquiry hand-off |
 | `img/` | Project renders, floor plans, logo |
