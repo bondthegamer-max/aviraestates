@@ -1038,3 +1038,16 @@ img { height: auto; }
 .studio-direct a { white-space: nowrap; }
 /* single full-width photo between two portrait rows */
 .studio-feature img { aspect-ratio: 16 / 9; object-position: center 52%; }
+
+/* ===================== AIRBNB LINKS PER ROOM ===================== */
+.room .room-book { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--spine); align-self: flex-start; margin-top: var(--sp-2); }
+.room .room-book:hover { color: var(--spine); }
+.book-rooms { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: var(--sp-4); }
+.book-rooms span { font-size: 14px; color: var(--ink-soft); margin-right: 4px; }
+.book-rooms a { font-size: 13px; color: var(--ink); text-decoration: none; padding: 6px 12px;
+  border: 1px solid var(--line-firm); background: var(--paper); white-space: nowrap; }
+.book-rooms a:hover { border-color: var(--spine); color: var(--spine); }
+.room.group { background: var(--bg); }
+.room.group .group-cta { margin-top: auto; padding-top: var(--sp-4); border-bottom: 0; }
+.room.group .group-cta { text-decoration: underline; text-decoration-color: var(--spine); text-underline-offset: 4px; }
